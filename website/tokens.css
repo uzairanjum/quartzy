@@ -1,0 +1,250 @@
+/* ============================================================
+   Quartzy Design System — Colors & Type Tokens
+   ============================================================
+   Brand palette uses Quartzy's chemistry-named colors:
+   Calcium (orange) is the primary, Butane (blue) is the secondary
+   accent, Borax (green) signals positive / "in stock",
+   Potassium (yellow) is reserved for warnings + highlights.
+   Neutrals are named after rocks/minerals: Ash → Marble → Granite → Epsom.
+   ============================================================ */
+
+/* Typography — Manrope (single-family system, free via Google Fonts).
+   Picked over the original Helvetica Neue Thin + Proxima Nova pairing
+   because Manrope is a single variable family whose ExtraLight (200)
+   keeps the airy Helvetica heritage, and whose ExtraBold (800) gives
+   Calcium-orange keyword highlights real punch. One font, one license,
+   one network request. */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap");
+
+:root {
+  /* -------- PRIMARY brand colors -------- */
+  --color-calcium:   #F15A29;   /* Quartzy orange — primary brand */
+  --color-butane:    #2BAAE1;   /* sky blue — secondary accent */
+
+  /* -------- SECONDARY brand colors -------- */
+  --color-borax:     #73C940;   /* green — success / in-stock */
+  --color-potassium: #FEC214;   /* yellow — highlight / warning */
+
+  /* -------- Neutrals (text + surfaces) -------- */
+  --color-ash:       #1E2025;   /* deepest text, near-black */
+  --color-marble:    #30333A;   /* dark text, sidebars */
+  --color-granite:   #A1A3A6;   /* secondary text, icons, dividers */
+  --color-epsom:     #F2F2F2;   /* page background, subtle surface */
+  --color-white:     #FFFFFF;
+
+  /* -------- Calcium tint scale (orange family) -------- */
+  --calcium-50:      #FFF1EB;
+  --calcium-100:     #FFDCCB;
+  --calcium-200:     #FCB89A;
+  --calcium-300:     #F89368;
+  --calcium-400:     #F47A48;
+  --calcium-500:     #F15A29;   /* = --color-calcium */
+  --calcium-600:     #D44A1F;
+  --calcium-700:     #A93613;
+  --calcium-800:     #7C260C;
+
+  /* -------- Butane tint scale (blue family) -------- */
+  --butane-50:       #EAF7FD;
+  --butane-100:      #C7EAF8;
+  --butane-200:      #8ED5F2;
+  --butane-300:      #56C0EB;
+  --butane-400:      #2BAAE1;   /* = --color-butane */
+  --butane-500:      #1F8FC2;
+  --butane-600:      #16739F;
+  --butane-700:      #0E5775;
+
+  /* -------- Neutral scale (cool gray) -------- */
+  --neutral-0:       #FFFFFF;
+  --neutral-50:      #FAFAFB;
+  --neutral-100:     #F2F2F2;   /* = --color-epsom */
+  --neutral-200:     #E6E7E9;
+  --neutral-300:     #D1D3D6;
+  --neutral-400:     #A1A3A6;   /* = --color-granite */
+  --neutral-500:     #70747A;
+  --neutral-600:     #4A4E55;
+  --neutral-700:     #30333A;   /* = --color-marble */
+  --neutral-800:     #1E2025;   /* = --color-ash */
+
+  /* -------- Semantic surfaces & text -------- */
+  --bg:              var(--neutral-0);
+  --bg-muted:        var(--neutral-50);
+  --bg-subtle:       var(--neutral-100);
+  --surface:         var(--neutral-0);
+  --surface-hover:   var(--neutral-50);
+  --surface-sunken:  var(--neutral-100);
+
+  --fg:              var(--neutral-800);   /* primary body text */
+  --fg-strong:       var(--neutral-800);
+  --fg-muted:        var(--neutral-500);
+  --fg-subtle:       var(--neutral-400);
+  --fg-on-brand:     #FFFFFF;
+  --fg-link:         var(--color-butane);
+  --fg-link-hover:   var(--butane-500);
+
+  --border:          var(--neutral-200);
+  --border-strong:   var(--neutral-300);
+  --divider:         var(--neutral-200);
+
+  /* -------- Semantic intent -------- */
+  --brand:           var(--color-calcium);
+  --brand-hover:     var(--calcium-600);
+  --brand-press:     var(--calcium-700);
+  --brand-soft:      var(--calcium-50);
+
+  --accent:          var(--color-butane);
+  --accent-hover:    var(--butane-500);
+  --accent-soft:     var(--butane-50);
+
+  --success:         var(--color-borax);
+  --success-soft:    #EAF7DD;
+  --warning:         var(--color-potassium);
+  --warning-soft:    #FFF6DA;
+  --danger:          #E0392B;
+  --danger-soft:     #FBE6E3;
+  --info:            var(--color-butane);
+  --info-soft:       var(--butane-50);
+
+  /* -------- Typography stacks (single-family: Manrope) -------- */
+  --font-display:    "Manrope", -apple-system, BlinkMacSystemFont,
+                     "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --font-body:       "Manrope", -apple-system, BlinkMacSystemFont,
+                     "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  --font-mono:       "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* -------- Type scale (px) -------- */
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;     /* default body */
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-30: 30px;
+  --fs-36: 36px;
+  --fs-48: 48px;
+  --fs-64: 64px;
+  --fs-80: 80px;
+
+  /* -------- Weight tokens (Manrope) -------- */
+  --fw-thin:     200;   /* Manrope ExtraLight — display / hero H1+H2 */
+  --fw-light:    300;   /* Manrope Light — large subheads */
+  --fw-regular:  400;   /* Manrope Regular — body copy */
+  --fw-medium:   500;   /* Manrope Medium — UI labels */
+  --fw-semibold: 600;   /* Manrope SemiBold — buttons, emphasis */
+  --fw-bold:     700;   /* Manrope Bold — eyebrows, small caps */
+  --fw-black:    800;   /* Manrope ExtraBold — keyword highlights inside thin H1s */
+
+  /* -------- Spacing scale (4px base) -------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* -------- Radius -------- */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;          /* default button + input radius */
+  --radius-lg: 6px;
+  --radius-xl: 10px;
+  --radius-pill: 999px;
+
+  /* -------- Elevation / shadows -------- */
+  --shadow-xs: 0 1px 2px rgba(30, 32, 37, 0.06);
+  --shadow-sm: 0 1px 3px rgba(30, 32, 37, 0.08), 0 1px 2px rgba(30, 32, 37, 0.04);
+  --shadow-md: 0 4px 12px rgba(30, 32, 37, 0.08), 0 1px 3px rgba(30, 32, 37, 0.05);
+  --shadow-lg: 0 12px 28px rgba(30, 32, 37, 0.12), 0 4px 8px rgba(30, 32, 37, 0.06);
+  --shadow-xl: 0 24px 48px rgba(30, 32, 37, 0.18);
+  --shadow-focus: 0 0 0 3px rgba(43, 170, 225, 0.30); /* butane focus ring */
+
+  /* -------- Motion -------- */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:    120ms;
+  --dur-base:    180ms;
+  --dur-slow:    260ms;
+
+  /* -------- Layout -------- */
+  --max-content: 1200px;
+  --header-h:    64px;
+  --sidebar-w:   240px;
+}
+
+/* ============================================================
+   Semantic element styles — drop this stylesheet onto a page
+   and headings/body inherit the Quartzy treatment.
+   ============================================================ */
+
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--fs-15);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, .display, .h-display {
+  font-family: var(--font-display);
+  font-weight: var(--fw-thin);     /* Manrope 200 ExtraLight */
+  letter-spacing: -0.022em;        /* Manrope wants a tighter track than Helvetica Thin */
+  color: var(--color-ash);
+  line-height: 1.04;
+  margin: 0;
+}
+
+/* Use .em-key inside an H1/H2 to highlight a keyword in ExtraBold Calcium —
+   this is the Manrope-era replacement for the old thin-italic accent. */
+.em-key, h1 em, h2 em {
+  font-style: normal;
+  font-weight: var(--fw-black);    /* Manrope 800 */
+  color: var(--color-calcium);
+  letter-spacing: -0.025em;
+}
+
+h1, .h1 { font-size: var(--fs-64); }
+h2, .h2 { font-size: var(--fs-48); }
+
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  font-family: var(--font-body);
+  font-weight: var(--fw-light);   /* Proxima Nova Light = secondary headers */
+  color: var(--color-ash);
+  line-height: 1.2;
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+h3, .h3 { font-size: var(--fs-30); }
+h4, .h4 { font-size: var(--fs-24); }
+h5, .h5 { font-size: var(--fs-18); font-weight: var(--fw-semibold); letter-spacing: 0; }
+h6, .h6 { font-size: var(--fs-14); font-weight: var(--fw-bold); letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-marble); }
+
+p, .body { font-size: var(--fs-15); line-height: 1.55; color: var(--fg); margin: 0; }
+.body-lg { font-size: var(--fs-18); line-height: 1.55; }
+.body-sm, small { font-size: var(--fs-13); line-height: 1.5; color: var(--fg-muted); }
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--fs-12);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-calcium);
+}
+strong, .emphasis { font-weight: var(--fw-semibold); }
+em { font-style: italic; }
+a { color: var(--fg-link); text-decoration: none; }
+a:hover { color: var(--fg-link-hover); text-decoration: underline; }
+code, kbd, samp { font-family: var(--font-mono); font-size: 0.92em; }
+
+::selection { background: var(--calcium-100); color: var(--color-ash); }
