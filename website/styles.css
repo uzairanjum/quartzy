@@ -179,23 +179,37 @@ a { cursor: pointer; }
 .qz-journey__lead--wide { max-width: 1100px; }
 
 .qz-curve { position: relative; height: 400px; margin-bottom: 8px; }
-.qz-curve svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.qz-curve svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.qz-curve__path { transition: stroke-dashoffset 0.1s linear; }
+.qz-curve__fill { transition: clip-path 0.1s linear; }
+
 .qz-curve__node {
-  position: absolute; transform: translate(-50%, -50%); cursor: pointer;
+  position: absolute; transform: translate(-50%, -50%) scale(0.85); cursor: pointer;
   border: none; background: transparent; padding: 0; display: grid; place-items: center; text-decoration: none;
+  opacity: 0.35; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+.qz-curve__node.is-reached {
+  opacity: 1; transform: translate(-50%, -50%) scale(1);
 }
 .qz-curve__dot {
   width: 18px; height: 18px; border-radius: 999px; background: #fff; border: 2.5px solid var(--color-calcium);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.10); transition: all .16s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10); transition: all 0.25s var(--ease-out);
 }
-.qz-curve__node:hover .qz-curve__dot { width: 26px; height: 26px; box-shadow: 0 0 0 8px rgba(241,90,41,0.13); }
+.qz-curve__node.is-active .qz-curve__dot,
+.qz-curve__node:hover .qz-curve__dot {
+  width: 24px; height: 24px; background: var(--color-calcium);
+  box-shadow: 0 0 0 8px rgba(241,90,41,0.22), 0 4px 14px rgba(241,90,41,0.4);
+}
 .qz-curve__caption {
   position: absolute; bottom: 100%; margin-bottom: 14px; white-space: nowrap; left: 50%; transform: translateX(-50%);
   font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted);
-  transition: color .16s ease;
+  transition: color 0.25s ease, transform 0.25s ease, font-weight 0.25s ease;
 }
 .qz-curve__node--end .qz-curve__caption { left: auto; right: 0; transform: none; }
-.qz-curve__node:hover .qz-curve__caption { color: var(--color-calcium); }
+.qz-curve__node.is-active .qz-curve__caption,
+.qz-curve__node:hover .qz-curve__caption { color: var(--color-calcium); font-weight: 700; transform: translateX(-50%) translateY(-2px); }
+.qz-curve__node--end.is-active .qz-curve__caption,
+.qz-curve__node--end:hover .qz-curve__caption { transform: translateY(-2px); }
 
 .qz-stages { display: grid; gap: 0; border-top: 1px solid var(--border); }
 .qz-stages--3 { grid-template-columns: repeat(3, 1fr); }
@@ -203,11 +217,20 @@ a { cursor: pointer; }
 .qz-stage-card {
   text-align: left; cursor: pointer; padding: 34px 30px 36px; background: transparent;
   border: none; border-left: 1px solid var(--border); border-top: 3px solid transparent;
-  margin-top: -1px; transition: background .16s ease, border-color .16s ease; display: grid;
+  margin-top: -1px; transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; display: grid;
   gap: 0; align-content: start; text-decoration: none; color: inherit;
+  opacity: 0; transform: translateY(32px) scale(0.97); pointer-events: none;
 }
 .qz-stages > .qz-stage-card:first-child { border-left: none; }
+.qz-stage-card.is-reached {
+  opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;
+}
+.qz-stage-card.is-active {
+  background: var(--color-epsom); border-top-color: var(--color-calcium);
+  box-shadow: 0 12px 32px rgba(15,13,12,0.08); z-index: 2;
+}
 .qz-stage-card:hover { background: var(--color-epsom); border-top-color: var(--color-calcium); text-decoration: none; }
+.qz-stage-card.is-active .qz-stage-card__cta,
 .qz-stage-card:hover .qz-stage-card__cta { color: var(--color-calcium); }
 .qz-stage-card__meta { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; }
 .qz-stage-card__n { font-family: var(--font-mono); font-size: 12.5px; font-weight: 700; color: var(--color-calcium); letter-spacing: 0.06em; }

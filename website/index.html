@@ -75,7 +75,7 @@
 </section>
 
 <!-- ============================== THE JOURNEY ============================== -->
-<section class="section section--white">
+<section class="section section--white qz-journey-section">
   <div class="container">
     <div class="qz-journey__intro">
       <div class="eyebrow-label">The journey</div>
@@ -84,15 +84,15 @@
     </div>
     <div class="qz-curve">
       <svg viewBox="0 0 400 100" preserveAspectRatio="none">
-        <path d="M50 92 C 220 92, 305 82, 350 6" fill="none" stroke="var(--color-calcium)" stroke-width="0.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-        <path d="M50 92 C 220 92, 305 82, 350 6 L 350 100 L 50 100 Z" fill="var(--color-calcium)" opacity="0.06"/>
+        <path class="qz-curve__path" d="M50 92 C 220 92, 305 82, 350 6" fill="none" stroke="var(--color-calcium)" stroke-width="0.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        <path class="qz-curve__fill" d="M50 92 C 220 92, 305 82, 350 6 L 350 100 L 50 100 Z" fill="var(--color-calcium)" opacity="0.06"/>
       </svg>
-      <a class="qz-curve__node" href="#stage-start" style="left:16.7%;top:92%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">Two people at a shared bench</span></a>
-      <a class="qz-curve__node" href="#stage-scale" style="left:50%;top:85.9%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">Real headcount, real spend</span></a>
-      <a class="qz-curve__node qz-curve__node--end" href="#stage-public" style="left:87.5%;top:6%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">IPO and beyond</span></a>
+      <a class="qz-curve__node" data-stage="1" href="#stage-start" style="left:16.7%;top:92%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">Two people at a shared bench</span></a>
+      <a class="qz-curve__node" data-stage="2" href="#stage-scale" style="left:50%;top:85.9%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">Real headcount, real spend</span></a>
+      <a class="qz-curve__node qz-curve__node--end" data-stage="3" href="#stage-public" style="left:87.5%;top:6%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">IPO and beyond</span></a>
     </div>
     <div class="qz-stages qz-stages--3">
-      <a class="qz-stage-card" href="#stage-start">
+      <a class="qz-stage-card" data-stage="1" href="#stage-start">
         <div class="qz-stage-card__meta"><span class="qz-stage-card__n">01</span><span class="qz-stage-card__size">1-5 people</span></div>
         <div class="qz-stage-card__name">Just starting out</div>
         <div class="qz-stage-card__line">Spend your runway on milestones, not supplier setup and backorder chasing.</div>
@@ -103,7 +103,7 @@
           <span class="icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-      <a class="qz-stage-card" href="#stage-scale">
+      <a class="qz-stage-card" data-stage="2" href="#stage-scale">
         <div class="qz-stage-card__meta"><span class="qz-stage-card__n">02</span><span class="qz-stage-card__size">5–300 people</span></div>
         <div class="qz-stage-card__name">Scaling the team</div>
         <div class="qz-stage-card__line">More people buying. Now you need approvals, an audit trail and real spend visibility.</div>
@@ -114,7 +114,7 @@
           <span class="icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
         </div>
       </a>
-      <a class="qz-stage-card" href="#stage-public">
+      <a class="qz-stage-card" data-stage="3" href="#stage-public">
         <div class="qz-stage-card__meta"><span class="qz-stage-card__n">03</span><span class="qz-stage-card__size">300+ / public</span></div>
         <div class="qz-stage-card__name">Public &amp; enterprise</div>
         <div class="qz-stage-card__line">Procure-to-pay integrations, SSO, long-tail consolidation, and compliance with existing contracts all without slowing science.</div>

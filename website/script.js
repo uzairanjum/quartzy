@@ -87,6 +87,101 @@
     });
   });
 
+  // ---------- Scroll-driven graph drawing & stage card reveals ----------
+  (function initJourneyGraphAnimation() {
+    var journeySection = document.querySelector(".qz-journey-section");
+    var curveContainer = document.querySelector(".qz-curve");
+    var path = document.querySelector(".qz-curve__path");
+    var fill = document.querySelector(".qz-curve__fill");
+    var nodes = Array.prototype.slice.call(document.querySelectorAll(".qz-curve__node"));
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".qz-stage-card"));
+
+    if (!journeySection || !path) return;
+
+    var pathLength = 0;
+    try {
+      pathLength = path.getTotalLength();
+    } catch (e) {
+      pathLength = 350;
+    }
+
+    path.style.strokeDasharray = pathLength;
+    path.style.strokeDashoffset = pathLength;
+
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var targetEl = curveContainer || journeySection;
+      var rect = targetEl.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      // Delayed scroll trigger: start drawing when curve top enters middle of viewport (55% from top)
+      // Complete drawing when curve moves up near upper viewport (15% from top)
+      var startTrigger = viewportHeight * 0.60;
+      var endTrigger = viewportHeight * 0.15;
+      var totalScrollRange = startTrigger - endTrigger;
+      var currentScroll = startTrigger - rect.top;
+      var progress = currentScroll / totalScrollRange;
+
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+
+      // Draw SVG curve line
+      var drawOffset = pathLength * (1 - progress);
+      path.style.strokeDashoffset = drawOffset;
+
+      // Unclip SVG area fill dynamically
+      if (fill) {
+        fill.style.clipPath = "inset(0 " + ((1 - progress) * 100).toFixed(1) + "% 0 0)";
+      }
+
+      // Stage activation thresholds (Point 1 @ ~25%, Point 2 @ ~60%, Point 3 @ ~90%)
+      var stage1Reached = progress >= 0.25;
+      var stage2Reached = progress >= 0.60;
+      var stage3Reached = progress >= 0.90;
+
+      // Determine active stage card
+      var activeStage = 0;
+      if (stage3Reached) {
+        activeStage = 3;
+      } else if (stage2Reached) {
+        activeStage = 2;
+      } else if (stage1Reached) {
+        activeStage = 1;
+      }
+
+      nodes.forEach(function (node) {
+        var stageNum = parseInt(node.getAttribute("data-stage"), 10);
+        var isReached = (stageNum === 1 && stage1Reached) ||
+          (stageNum === 2 && stage2Reached) ||
+          (stageNum === 3 && stage3Reached);
+        node.classList.toggle("is-reached", isReached);
+        node.classList.toggle("is-active", stageNum === activeStage && isReached);
+      });
+
+      cards.forEach(function (card) {
+        var stageNum = parseInt(card.getAttribute("data-stage"), 10);
+        var isReached = (stageNum === 1 && stage1Reached) ||
+          (stageNum === 2 && stage2Reached) ||
+          (stageNum === 3 && stage3Reached);
+        card.classList.toggle("is-reached", isReached);
+        card.classList.toggle("is-active", stageNum === activeStage && isReached);
+      });
+    }
+
+    function onScrollOrResize() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    update();
+  })();
+
   // ---------- Mobile nav toggle ----------
   document.querySelectorAll(".qz-nav__burger").forEach(function (btn) {
     btn.addEventListener("click", function () {
@@ -127,3 +222,4 @@
     setHome(location.hash === "#academic" ? "academic" : "industry");
   }
 })();
+
