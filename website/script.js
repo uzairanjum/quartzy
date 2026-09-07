@@ -91,8 +91,12 @@
   (function initJourneyGraphAnimation() {
     var journeySection = document.querySelector(".qz-journey-section");
     var curveContainer = document.querySelector(".qz-curve");
+<<<<<<< Updated upstream
     var path = document.querySelector(".qz-curve__path");
     var fill = document.querySelector(".qz-curve__fill");
+=======
+    var clipRect = document.getElementById("qz-clip-rect");
+>>>>>>> Stashed changes
     var nodes = Array.prototype.slice.call(document.querySelectorAll(".qz-curve__node"));
     var cards = Array.prototype.slice.call(document.querySelectorAll(".qz-stage-card"));
 
@@ -116,7 +120,11 @@
       var rect = targetEl.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
+<<<<<<< Updated upstream
       // Delayed scroll trigger: start drawing when curve top enters middle of viewport (55% from top)
+=======
+      // Delayed scroll trigger: start drawing when curve top enters middle of viewport (60% from top)
+>>>>>>> Stashed changes
       // Complete drawing when curve moves up near upper viewport (15% from top)
       var startTrigger = viewportHeight * 0.60;
       var endTrigger = viewportHeight * 0.15;
@@ -127,6 +135,7 @@
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
 
+<<<<<<< Updated upstream
       // Draw SVG curve line
       var drawOffset = pathLength * (1 - progress);
       path.style.strokeDashoffset = drawOffset;
@@ -140,6 +149,20 @@
       var stage1Reached = progress >= 0.25;
       var stage2Reached = progress >= 0.60;
       var stage3Reached = progress >= 0.90;
+=======
+      // Unclip SVG stroke and area fill dynamically via native SVG rect attribute manipulation
+      if (clipRect) {
+        clipRect.setAttribute("width", progress);
+      }
+
+      // Stage activation thresholds:
+      // Point 1 (progress >= 0.167): Unveils stroke & fill to Node 1 (16.7%) -> Node 1 & Card 1 activate
+      // Point 2 (progress >= 0.580): Triggers when user scrolls slightly further down -> Node 2 & Card 2 activate
+      // Point 3 (progress >= 0.875): Unveils stroke & fill to Node 3 (87.5%) -> Node 3 & Card 3 activate
+      var stage1Reached = progress >= 0.167;
+      var stage2Reached = progress >= 0.580;
+      var stage3Reached = progress >= 0.875;
+>>>>>>> Stashed changes
 
       // Determine active stage card
       var activeStage = 0;
@@ -222,4 +245,3 @@
     setHome(location.hash === "#academic" ? "academic" : "industry");
   }
 })();
-
