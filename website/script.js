@@ -87,6 +87,89 @@
     });
   });
 
+  // ---------- Scroll-driven graph drawing & stage card reveals ----------
+  (function initJourneyGraphAnimation() {
+    var journeySection = document.querySelector(".qz-journey-section");
+    var curveContainer = document.querySelector(".qz-curve");
+    var clipRect = document.getElementById("qz-clip-rect");
+    var nodes = Array.prototype.slice.call(document.querySelectorAll(".qz-curve__node"));
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".qz-stage-card"));
+
+    if (!journeySection) return;
+
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      var targetEl = curveContainer || journeySection;
+      var rect = targetEl.getBoundingClientRect();
+      var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      // Delayed scroll trigger: start drawing when curve top enters middle of viewport (60% from top)
+      // Complete drawing when curve moves up near upper viewport (15% from top)
+      var startTrigger = viewportHeight * 0.60;
+      var endTrigger = viewportHeight * 0.15;
+      var totalScrollRange = startTrigger - endTrigger;
+      var currentScroll = startTrigger - rect.top;
+      var progress = currentScroll / totalScrollRange;
+
+      if (progress < 0) progress = 0;
+      if (progress > 1) progress = 1;
+
+      // Unclip SVG stroke and area fill dynamically via native SVG rect attribute manipulation
+      if (clipRect) {
+        clipRect.setAttribute("width", progress);
+      }
+
+      // Stage activation thresholds:
+      // Point 1 (progress >= 0.167): Unveils stroke & fill to Node 1 (16.7%) -> Node 1 & Card 1 activate
+      // Point 2 (progress >= 0.580): Triggers when user scrolls slightly further down -> Node 2 & Card 2 activate
+      // Point 3 (progress >= 0.875): Unveils stroke & fill to Node 3 (87.5%) -> Node 3 & Card 3 activate
+      var stage1Reached = progress >= 0.167;
+      var stage2Reached = progress >= 0.580;
+      var stage3Reached = progress >= 0.875;
+
+      // Determine active stage card
+      var activeStage = 0;
+      if (stage3Reached) {
+        activeStage = 3;
+      } else if (stage2Reached) {
+        activeStage = 2;
+      } else if (stage1Reached) {
+        activeStage = 1;
+      }
+
+      nodes.forEach(function (node) {
+        var stageNum = parseInt(node.getAttribute("data-stage"), 10);
+        var isReached = (stageNum === 1 && stage1Reached) ||
+          (stageNum === 2 && stage2Reached) ||
+          (stageNum === 3 && stage3Reached);
+        node.classList.toggle("is-reached", isReached);
+        node.classList.toggle("is-active", stageNum === activeStage && isReached);
+      });
+
+      cards.forEach(function (card) {
+        var stageNum = parseInt(card.getAttribute("data-stage"), 10);
+        var isReached = (stageNum === 1 && stage1Reached) ||
+          (stageNum === 2 && stage2Reached) ||
+          (stageNum === 3 && stage3Reached);
+        card.classList.toggle("is-reached", isReached);
+        card.classList.toggle("is-active", stageNum === activeStage && isReached);
+      });
+    }
+
+    function onScrollOrResize() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    update();
+  })();
+
   // ---------- Mobile nav toggle ----------
   document.querySelectorAll(".qz-nav__burger").forEach(function (btn) {
     btn.addEventListener("click", function () {
