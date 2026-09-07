@@ -91,26 +91,11 @@
   (function initJourneyGraphAnimation() {
     var journeySection = document.querySelector(".qz-journey-section");
     var curveContainer = document.querySelector(".qz-curve");
-<<<<<<< Updated upstream
-    var path = document.querySelector(".qz-curve__path");
-    var fill = document.querySelector(".qz-curve__fill");
-=======
     var clipRect = document.getElementById("qz-clip-rect");
->>>>>>> Stashed changes
     var nodes = Array.prototype.slice.call(document.querySelectorAll(".qz-curve__node"));
     var cards = Array.prototype.slice.call(document.querySelectorAll(".qz-stage-card"));
 
-    if (!journeySection || !path) return;
-
-    var pathLength = 0;
-    try {
-      pathLength = path.getTotalLength();
-    } catch (e) {
-      pathLength = 350;
-    }
-
-    path.style.strokeDasharray = pathLength;
-    path.style.strokeDashoffset = pathLength;
+    if (!journeySection) return;
 
     var ticking = false;
 
@@ -120,11 +105,7 @@
       var rect = targetEl.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-<<<<<<< Updated upstream
-      // Delayed scroll trigger: start drawing when curve top enters middle of viewport (55% from top)
-=======
       // Delayed scroll trigger: start drawing when curve top enters middle of viewport (60% from top)
->>>>>>> Stashed changes
       // Complete drawing when curve moves up near upper viewport (15% from top)
       var startTrigger = viewportHeight * 0.60;
       var endTrigger = viewportHeight * 0.15;
@@ -135,21 +116,6 @@
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
 
-<<<<<<< Updated upstream
-      // Draw SVG curve line
-      var drawOffset = pathLength * (1 - progress);
-      path.style.strokeDashoffset = drawOffset;
-
-      // Unclip SVG area fill dynamically
-      if (fill) {
-        fill.style.clipPath = "inset(0 " + ((1 - progress) * 100).toFixed(1) + "% 0 0)";
-      }
-
-      // Stage activation thresholds (Point 1 @ ~25%, Point 2 @ ~60%, Point 3 @ ~90%)
-      var stage1Reached = progress >= 0.25;
-      var stage2Reached = progress >= 0.60;
-      var stage3Reached = progress >= 0.90;
-=======
       // Unclip SVG stroke and area fill dynamically via native SVG rect attribute manipulation
       if (clipRect) {
         clipRect.setAttribute("width", progress);
@@ -162,7 +128,6 @@
       var stage1Reached = progress >= 0.167;
       var stage2Reached = progress >= 0.580;
       var stage3Reached = progress >= 0.875;
->>>>>>> Stashed changes
 
       // Determine active stage card
       var activeStage = 0;
