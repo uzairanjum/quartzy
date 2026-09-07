@@ -87,6 +87,68 @@
     });
   });
 
+  // ---------- Journey graph: one-time scroll reveal ----------
+  document.querySelectorAll(".qz-curve").forEach(function (curve) {
+    var reveal = curve.querySelector(".qz-curve__reveal");
+    var nodes = Array.prototype.slice.call(curve.querySelectorAll(".qz-curve__node"));
+    if (!reveal) return;
+
+    var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var duration = 3000;
+    var hasPlayed = false;
+
+    function setProgress(progress) {
+      var percent = Math.max(0, Math.min(1, progress)) * 100;
+      reveal.setAttribute("width", String(progress * 400));
+      nodes.forEach(function (node) {
+        var left = parseFloat(node.style.left) || 0;
+        node.classList.toggle("is-active", percent >= left);
+      });
+    }
+
+    function complete() {
+      hasPlayed = true;
+      setProgress(1);
+    }
+
+    function play() {
+      if (hasPlayed) return;
+      hasPlayed = true;
+      var startedAt = null;
+
+      function frame(now) {
+        if (startedAt === null) startedAt = now;
+        var progress = Math.min((now - startedAt) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        setProgress(eased);
+        if (progress < 1) window.requestAnimationFrame(frame);
+      }
+
+      window.requestAnimationFrame(frame);
+    }
+
+    if (reducedMotion || window.getComputedStyle(curve).display === "none") {
+      complete();
+      return;
+    }
+
+    setProgress(0);
+    if (!("IntersectionObserver" in window)) {
+      complete();
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting || hasPlayed) return;
+        observer.disconnect();
+        play();
+      });
+    }, { threshold: 0.2 });
+
+    observer.observe(curve);
+  });
+
   // ---------- Mobile nav toggle ----------
   document.querySelectorAll(".qz-nav__burger").forEach(function (btn) {
     btn.addEventListener("click", function () {

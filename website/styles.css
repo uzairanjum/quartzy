@@ -186,7 +186,12 @@ a { cursor: pointer; }
 }
 .qz-curve__dot {
   width: 18px; height: 18px; border-radius: 999px; background: #fff; border: 2.5px solid var(--color-calcium);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.10); transition: all .16s ease;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.10); opacity: 0.42; transform: scale(0.82);
+  transition: width .16s ease, height .16s ease, box-shadow .28s ease, background-color .28s ease, opacity .28s ease, transform .28s ease;
+}
+.qz-curve__node.is-active .qz-curve__dot {
+  opacity: 1; transform: scale(1);
+  box-shadow: 0 0 0 7px rgba(241,90,41,0.13), 0 1px 4px rgba(0,0,0,0.10);
 }
 .qz-curve__node:hover .qz-curve__dot { width: 26px; height: 26px; box-shadow: 0 0 0 8px rgba(241,90,41,0.13); }
 .qz-curve__caption {
@@ -194,8 +199,13 @@ a { cursor: pointer; }
   font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-muted);
   transition: color .16s ease;
 }
+.qz-curve__node.is-active .qz-curve__caption { color: var(--color-calcium); }
 .qz-curve__node--end .qz-curve__caption { left: auto; right: 0; transform: none; }
 .qz-curve__node:hover .qz-curve__caption { color: var(--color-calcium); }
+
+@media (prefers-reduced-motion: reduce) {
+  .qz-curve__dot { transition: none; }
+}
 
 .qz-stages { display: grid; gap: 0; border-top: 1px solid var(--border); }
 .qz-stages--3 { grid-template-columns: repeat(3, 1fr); }
