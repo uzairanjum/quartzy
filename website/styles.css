@@ -178,7 +178,7 @@ a { cursor: pointer; }
 .qz-journey__lead { font-size: 18px; color: var(--color-marble); margin: 20px 0 0; max-width: 620px; line-height: 1.55; }
 .qz-journey__lead--wide { max-width: 1100px; }
 
-.qz-curve { position: relative; height: 400px; margin-bottom: 8px; }
+.qz-curve { position: relative; height: 400px; margin-bottom: 0; }
 .qz-curve svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .qz-curve__node {
   position: absolute; transform: translate(-50%, -50%); cursor: pointer;
