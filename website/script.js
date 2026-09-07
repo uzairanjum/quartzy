@@ -90,36 +90,23 @@
   // ---------- Scroll-driven graph drawing & stage card reveals ----------
   (function initJourneyGraphAnimation() {
     var journeySection = document.querySelector(".qz-journey-section");
-    var curveContainer = document.querySelector(".qz-curve");
-    var path = document.querySelector(".qz-curve__path");
-    var fill = document.querySelector(".qz-curve__fill");
+    var clipRect = document.getElementById("qz-clip-rect");
     var nodes = Array.prototype.slice.call(document.querySelectorAll(".qz-curve__node"));
     var cards = Array.prototype.slice.call(document.querySelectorAll(".qz-stage-card"));
 
-    if (!journeySection || !path) return;
-
-    var pathLength = 0;
-    try {
-      pathLength = path.getTotalLength();
-    } catch (e) {
-      pathLength = 350;
-    }
-
-    path.style.strokeDasharray = pathLength;
-    path.style.strokeDashoffset = pathLength;
+    if (!journeySection) return;
 
     var ticking = false;
 
     function update() {
       ticking = false;
-      var targetEl = curveContainer || journeySection;
-      var rect = targetEl.getBoundingClientRect();
+      var rect = journeySection.getBoundingClientRect();
       var viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      var sectionHeight = rect.height || 800;
 
-      // Delayed scroll trigger: start drawing when curve top enters middle of viewport (55% from top)
-      // Complete drawing when curve moves up near upper viewport (15% from top)
-      var startTrigger = viewportHeight * 0.60;
-      var endTrigger = viewportHeight * 0.15;
+      // Scroll progress calculation over the journey section
+      var startTrigger = viewportHeight * 0.55;
+      var endTrigger = -sectionHeight * 0.25;
       var totalScrollRange = startTrigger - endTrigger;
       var currentScroll = startTrigger - rect.top;
       var progress = currentScroll / totalScrollRange;
@@ -127,21 +114,22 @@
       if (progress < 0) progress = 0;
       if (progress > 1) progress = 1;
 
-      // Draw SVG curve line
-      var drawOffset = pathLength * (1 - progress);
-      path.style.strokeDashoffset = drawOffset;
-
-      // Unclip SVG area fill dynamically
-      if (fill) {
-        fill.style.clipPath = "inset(0 " + ((1 - progress) * 100).toFixed(1) + "% 0 0)";
+      // Update SVG clip width dynamically (0 to 355px in viewBox coordinates)
+      // Ensures stroke line and fill area unveil in 100% exact pixel alignment with no floating lines
+      var maxClipWidth = 355;
+      var clipWidth = progress * maxClipWidth;
+      if (clipRect) {
+        clipRect.setAttribute("width", clipWidth.toFixed(1));
       }
 
-      // Stage activation thresholds (Point 1 @ ~25%, Point 2 @ ~60%, Point 3 @ ~90%)
-      var stage1Reached = progress >= 0.25;
-      var stage2Reached = progress >= 0.60;
-      var stage3Reached = progress >= 0.90;
+      // Stage activation thresholds based on clip width matching node X positions:
+      // Point 1 (x = 66.8): reached at clipWidth >= 62
+      // Point 2 (x = 200.0): reached at clipWidth >= 195
+      // Point 3 (x = 350.0): reached at clipWidth >= 345
+      var stage1Reached = clipWidth >= 62;
+      var stage2Reached = clipWidth >= 195;
+      var stage3Reached = clipWidth >= 345;
 
-      // Determine active stage card
       var activeStage = 0;
       if (stage3Reached) {
         activeStage = 3;

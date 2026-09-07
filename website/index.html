@@ -84,8 +84,15 @@
     </div>
     <div class="qz-curve">
       <svg viewBox="0 0 400 100" preserveAspectRatio="none">
-        <path class="qz-curve__path" d="M50 92 C 220 92, 305 82, 350 6" fill="none" stroke="var(--color-calcium)" stroke-width="0.6" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-        <path class="qz-curve__fill" d="M50 92 C 220 92, 305 82, 350 6 L 350 100 L 50 100 Z" fill="var(--color-calcium)" opacity="0.06"/>
+        <defs>
+          <clipPath id="qz-curve-clip">
+            <rect id="qz-clip-rect" x="0" y="0" width="0" height="100"/>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#qz-curve-clip)">
+          <path class="qz-curve__fill" d="M50 92 C 220 92, 305 82, 350 6 L 350 100 L 50 100 Z" fill="var(--color-calcium)" opacity="0.08"/>
+          <path class="qz-curve__path" d="M50 92 C 220 92, 305 82, 350 6" fill="none" stroke="var(--color-calcium)" stroke-width="1.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        </g>
       </svg>
       <a class="qz-curve__node" data-stage="1" href="#stage-start" style="left:16.7%;top:92%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">Two people at a shared bench</span></a>
       <a class="qz-curve__node" data-stage="2" href="#stage-scale" style="left:50%;top:85.9%"><span class="qz-curve__dot"></span><span class="qz-curve__caption">Real headcount, real spend</span></a>
